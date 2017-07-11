@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>台南 | 定時定點 | 垃圾車 長時間停留 清運點</title>
+		<meta name="viewport" content="initial-scale=1.0">
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="long_stay.css">
+	</head>
+	<body>
+		<div id="map"></div>
+
+		<div id="control">
+			<div id="cond" class="bgBlock"><div class="wrapping">
+				清運時間:
+				<input type="number" min="4" max="20" id="condStart"> ~
+				<input type="number" min="5" max="24" id="condEnd"> 時
+				<div class="pullRight">
+					<button id="condClear" type="button">清除</button>
+					<button id="condSubmit" type="button">查詢</button>
+				</div>
+			</div></div>
+
+			<div id="info" class="bgBlock"><div class="wrapping">
+				<strong id="pName">清運點名稱</strong><br>
+				台南市 / <span id="area">#</span>區 / <span id="village">#</span>里<br>
+				清運日: <span id="nWeekdays">#</span><br>
+				資收日: <span id="rWeekdays">#</span><br>
+				時間: <span id="stayTime">#</span>，
+				停留 <span id="diffTime">#</span> 分 | ➜
+				<a id="pLink" href="" target="_blank">Google Map</a>
+			</div></div>
+		</div>
+
+		<script type="text/javascript" src="long_stay.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxFok1_7wapu3QV6mihxsox4Vf8cvvI98&callback=initMap"
+		async defer></script>
+	</body>
+</html>
