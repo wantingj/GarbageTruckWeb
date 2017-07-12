@@ -58,6 +58,22 @@ button {
 	font-size: 15px;
 }
 
+.btnClose {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 9px;
+	cursor: pointer;
+	font-size: 23px;
+	font-weight: 700;
+	line-height: 1;
+	float: right;
+	opacity: .2;
+}
+.btnClose:hover {
+	opacity: .5;
+}
+
 @media screen and (min-width:500px) {
 	.bgBlock {
 		min-width: 336px;

@@ -1,4 +1,3 @@
-
 function initMap() {
 	var eStart = document.getElementById('condStart');
 	var eEnd = document.getElementById('condEnd');
@@ -7,7 +6,14 @@ function initMap() {
 		zoom: 13,
 		disableDefaultUI: true,
 		zoomControl: true,
-		center: {lat: 22.9927919, lng: 120.1914003}
+		center: {lat: 22.9927919, lng: 120.1914003},
+		styles: [
+			{
+			  featureType: 'poi',
+			  elementType: 'labels.icon',
+			  stylers: [{visibility: 'off'}]
+			}
+		]
 	});
 
 	var eControl = document.getElementById('control');
@@ -32,19 +38,20 @@ function initMap() {
 	}];
 
 	var searchPoints = () => {
-		console.log('search');
 		var start = +eStart.value;
 		var end = +eEnd.value || 24;
-		if (start > end) end = [start, start = end][0];
-
-		map.data.setStyle(function(feature) {
-			if ( (start <= feature.getProperty('sHr') && feature.getProperty('sHr') <= end) ||
-				(start <= feature.getProperty('eHr') && feature.getProperty('eHr') <= end) ) {
-				return pointStyle[1];
-			} else {
-				return pointStyle[0];
-			}
-		});
+		if (start > end) {
+			map.data.setStyle(pointStyle[0]);
+		} else {
+			map.data.setStyle(function(feature) {
+				if ( (start <= feature.getProperty('sHr') && feature.getProperty('sHr') <= end) ||
+					(start <= feature.getProperty('eHr') && feature.getProperty('eHr') <= end) ) {
+					return pointStyle[1];
+				} else {
+					return pointStyle[0];
+				}
+			});
+		}
 	};
 
 	var initInputTime = () => {
@@ -90,11 +97,13 @@ function initMap() {
 		eInfo.style.display = 'block';
 	});
 
-	// Event: click map, clear point info
-	map.addListener('click', function(e) {
+	// Close point info panel
+	var closePointInfo = () => {
 		eInfo.style.display = 'none';
 		targetMarker.setMap(null);
-	});
+	};
+	map.addListener('click', closePointInfo);
+	document.getElementById('btnClosePointInfo').addEventListener('click', closePointInfo);
 
 	// Event: clear conditions
 	document.getElementById('condClear').addEventListener('click', () => {
@@ -103,6 +112,7 @@ function initMap() {
 
 		map.data.setStyle(pointStyle[1]);
 	});
+
 }
 
 // Helper: generate string of weekdays
