@@ -1,7 +1,12 @@
+
 function initMap() {
+	var eStart = document.getElementById('condStart');
+	var eEnd = document.getElementById('condEnd');
+
 	var map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 13,
 		disableDefaultUI: true,
+		zoomControl: true,
 		center: {lat: 22.9927919, lng: 120.1914003}
 	});
 
@@ -26,10 +31,39 @@ function initMap() {
 		}
 	}];
 
-	map.data.loadGeoJson("long_stay.json");
-	map.data.setStyle(pointStyle[1]);
+	var searchPoints = () => {
+		console.log('search');
+		var start = +eStart.value;
+		var end = +eEnd.value || 24;
+		if (start > end) end = [start, start = end][0];
 
-	// --
+		map.data.setStyle(function(feature) {
+			if ( (start <= feature.getProperty('sHr') && feature.getProperty('sHr') <= end) ||
+				(start <= feature.getProperty('eHr') && feature.getProperty('eHr') <= end) ) {
+				return pointStyle[1];
+			} else {
+				return pointStyle[0];
+			}
+		});
+	};
+
+	var initInputTime = () => {
+		var hour = new Date().getHours();
+		if (hour < 4 && hour > 21) {
+			eStart.value = 4;
+			eEnd.value = 24;
+		} else {
+			eStart.value = hour;
+			eEnd.value = hour+1;
+		}
+	};
+	map.data.loadGeoJson("long_stay.json");
+	initInputTime();
+	searchPoints();
+
+	eStart.addEventListener('change', searchPoints);
+	eEnd.addEventListener('change', searchPoints);
+
 	// Event: click point, show point info
 	map.data.addListener('click', function(event) {
 		var marker = event.feature;
@@ -54,29 +88,12 @@ function initMap() {
 		});
 
 		eInfo.style.display = 'block';
-		console.log(marker);
 	});
 
 	// Event: click map, clear point info
 	map.addListener('click', function(e) {
 		eInfo.style.display = 'none';
 		targetMarker.setMap(null);
-	});
-
-	// Event: search points by conditions
-	document.getElementById('condSubmit').addEventListener('click', () => {
-		var start = +document.getElementById('condStart').value;
-		var end = +document.getElementById('condEnd').value || 24;
-		if (start > end) end = [start, start = end][0];
-		
-		map.data.setStyle(function(feature) {
-			if ( (start <= feature.getProperty('sHr') && feature.getProperty('sHr') <= end) ||
-				(start <= feature.getProperty('eHr') && feature.getProperty('eHr') <= end) ) {
-				return pointStyle[1];
-			} else {
-				return pointStyle[0];
-			}
-		});
 	});
 
 	// Event: clear conditions

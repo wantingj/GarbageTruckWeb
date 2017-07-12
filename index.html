@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>台南 | 定時定點 | 垃圾車 長時間停留 清運點</title>
-		<meta name="viewport" content="initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="long_stay.css">
 	</head>
@@ -11,12 +11,12 @@
 
 		<div id="control">
 			<div id="cond" class="bgBlock"><div class="wrapping">
-				清運時間:
+				<span class="title">台南 定時定點 垃圾清運 查詢</span><br>
+				清運時間
 				<input type="number" min="4" max="20" id="condStart"> ~
 				<input type="number" min="5" max="24" id="condEnd"> 時
 				<div class="pullRight">
-					<button id="condClear" type="button">清除</button>
-					<button id="condSubmit" type="button">查詢</button>
+					<button id="condClear" type="button">清除條件</button>
 				</div>
 			</div></div>
 
@@ -32,7 +32,7 @@
 		</div>
 
 		<script type="text/javascript" src="long_stay.js"></script>
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxFok1_7wapu3QV6mihxsox4Vf8cvvI98&callback=initMap"
+		<script src="https://maps.googleapis.com/maps/api/js?callback=initMap&key=AIzaSyBxFok1_7wapu3QV6mihxsox4Vf8cvvI98"
 		async defer></script>
 	</body>
 </html>
